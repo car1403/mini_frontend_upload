@@ -1,5 +1,7 @@
 # item_router.py
 
+from typing import Annotated
+
 from fastapi import (
     APIRouter, HTTPException, UploadFile, File, Form
 )
@@ -23,15 +25,20 @@ item_router = APIRouter(tags=["Item"])
 
 # 1. create
 @item_router.post("/item/create")
-async def create(item: ItemCreate = Form(...), 
-           image: UploadFile | None = File(None)) -> ApiResponse:
+async def create(
+    name: Annotated[str, Form(min_length=1, max_length=50)],
+    price: Annotated[int, Form(ge=1)],
+    desc: Annotated[str, Form(min_length=1, max_length=200)],
+    image: Annotated[UploadFile | None, File()] = None,
+) -> ApiResponse:
 
     image_url, image_filename = await save_image(image)
-    item = item.model_copy(
-        update={
-            "image_url": image_url,
-            "image_filename": image_filename,
-        }
+    item = ItemCreate(
+        name=name,
+        price=price,
+        desc=desc,
+        image_url=image_url,
+        image_filename=image_filename,
     )
     # name, price, desc
     created_product = item_create(item)

@@ -15,7 +15,7 @@ def item_create(item: ItemCreate) -> ItemPublic | None:
             {
                 "name": item.name,
                 "price": item.price,
-                "desc": item.desc,
+                "description": item.desc,
                 "image_url": item.image_url,
                 "image_filename": item.image_filename,
                 "created_at": now.isoformat(),

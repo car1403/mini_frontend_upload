@@ -8,6 +8,6 @@ def create_item(name:str, price:int, desc:str, image: Any = None):
     return request(
                     "POST", 
                     f"/item/create", 
-                    json={"name":name, "price":price, "desc":desc},
+                    data={"name": name, "price": str(price), "desc": desc},
                     files={"image": image} if image else None
                    )

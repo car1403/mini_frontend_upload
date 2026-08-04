@@ -18,6 +18,7 @@ class BackendAPIError(Exception):
 def request(method: str, 
             path: str, 
             json: dict[str, Any] | None = None,
+            data: dict[str, Any] | None = None,
             files: dict[str, Any] | None = None, 
             ):
     try:
@@ -25,6 +26,7 @@ def request(method: str,
             method,
             f"{BACKEND_URL}{path}",
             json=json,
+            data=data,
             files=files,
             timeout=REQUEST_TIMEOUT,
         )
