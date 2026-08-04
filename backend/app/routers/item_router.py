@@ -4,6 +4,7 @@ from fastapi import (
     APIRouter, HTTPException, UploadFile, File, Form
 )
 from app.schemas.item_schema import ItemCreate
+from app.services.image_service import save_image
 from app.services.item_service import (
     item_create,
 )
@@ -22,8 +23,17 @@ item_router = APIRouter(tags=["Item"])
 
 # 1. create
 @item_router.post("/item/create")
-def create(item: ItemCreate = Form(...), 
+async def create(item: ItemCreate = Form(...), 
            image: UploadFile | None = File(None)) -> ApiResponse:
+
+    image_url, image_filename = await save_image(image)
+    item = item.model_copy(
+        update={
+            "image_url": image_url,
+            "image_filename": image_filename,
+        }
+    )
+    # name, price, desc
     created_product = item_create(item)
     if created_product is None:
         raise HTTPException(

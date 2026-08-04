@@ -1,5 +1,5 @@
 # item_service.py
-from app.schemas.product_schema import ItemCreate, ItemPublic, ProductUpdate
+from app.schemas.item_schema import ItemCreate, ItemPublic
 from app.core.supabase_client import get_supabase
 from zoneinfo import ZoneInfo
 from datetime import datetime
@@ -16,6 +16,8 @@ def item_create(item: ItemCreate) -> ItemPublic | None:
                 "name": item.name,
                 "price": item.price,
                 "desc": item.desc,
+                "image_url": item.image_url,
+                "image_filename": item.image_filename,
                 "created_at": now.isoformat(),
                 "updated_at": now.isoformat(),
             }
