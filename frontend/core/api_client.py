@@ -50,6 +50,14 @@ def request(method: str,
             "ID가 사용 중 입니다."
         )
    
+    if response.is_error:
+        try:
+            error_payload = response.json()
+            detail = error_payload.get("detail", error_payload)
+        except ValueError:
+            detail = response.text or "알 수 없는 오류"
+        raise BackendAPIError(f"요청에 실패했습니다 ({response.status_code}): {detail}")
+
     try:
         payload = response.json()
     except ValueError as error:

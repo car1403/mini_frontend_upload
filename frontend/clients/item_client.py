@@ -2,12 +2,26 @@ from typing import Any
 
 from core.api_client import request
 
-def create_item(name:str, price:int, desc:str, image: Any = None):
-    """  로그인 진행 ID와 PWD 입력 하면 사용자 정보 리턴"""
+
+def create_item(
+    name: str,
+    price: int,
+    desc: str,
+    image: Any = None,
+):
+    files = None
+    if image is not None:
+        files = {
+            "image": (
+                image.name,
+                image.getvalue(),
+                image.type or "application/octet-stream",
+            )
+        }
 
     return request(
-                    "POST", 
-                    f"/item/create", 
-                    data={"name": name, "price": str(price), "desc": desc},
-                    files={"image": image} if image else None
-                   )
+        "POST",
+        "/item/create",
+        data={"name": name, "price": str(price), "desc": desc},
+        files=files,
+    )
