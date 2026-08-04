@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from app.core.config import UPLOAD_DIR
 from app.routers.chat_router import chat_router
 from app.routers.product_router import product_router
 from app.routers.auth_router import auth_router
@@ -25,6 +27,9 @@ tags_metadata = [
     },
 ]
 app = FastAPI(title="Main App", openapi_tags=tags_metadata)
+
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 app.include_router(auth_router)
 app.include_router(chat_router)

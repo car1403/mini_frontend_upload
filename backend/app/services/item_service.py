@@ -27,3 +27,70 @@ def item_create(item: ItemCreate) -> ItemPublic | None:
     if not result.data:
         return None
     return ItemPublic.model_validate(result.data[0])
+
+
+def item_get_all() -> list[ItemPublic]:
+    supabase = get_supabase()
+    result = (
+        supabase.table("items")
+        .select("*")
+        .order("created_at", desc=True)
+        .execute()
+    )
+    return [ItemPublic.model_validate(item) for item in result.data]
+
+
+def item_get(item_id: int) -> ItemPublic | None:
+    supabase = get_supabase()
+    result = (
+        supabase.table("items")
+        .select("*")
+        .eq("id", item_id)
+        .execute()
+    )
+    if not result.data:
+        return None
+    return ItemPublic.model_validate(result.data[0])
+
+
+def item_update(
+    item_id: int,
+    name: str,
+    price: int,
+    description: str,
+    image_url: str | None,
+    image_filename: str | None,
+) -> ItemPublic | None:
+    supabase = get_supabase()
+    now = datetime.now(ZoneInfo("Asia/Seoul"))
+    result = (
+        supabase.table("items")
+        .update(
+            {
+                "name": name,
+                "price": price,
+                "description": description,
+                "image_url": image_url,
+                "image_filename": image_filename,
+                "updated_at": now.isoformat(),
+            }
+        )
+        .eq("id", item_id)
+        .execute()
+    )
+    if not result.data:
+        return None
+    return ItemPublic.model_validate(result.data[0])
+
+
+def item_delete(item_id: int) -> ItemPublic | None:
+    supabase = get_supabase()
+    result = (
+        supabase.table("items")
+        .delete()
+        .eq("id", item_id)
+        .execute()
+    )
+    if not result.data:
+        return None
+    return ItemPublic.model_validate(result.data[0])
