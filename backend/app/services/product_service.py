@@ -2,7 +2,7 @@
 from app.schemas.product_schema import ProductCreate, ProductPublic, ProductUpdate
 from app.core.supabase_config import get_supabase
 from zoneinfo import ZoneInfo
-from datetime import datetime
+from datetime import date, datetime
 
 # 1. 입력
 def product_create(product: ProductCreate) -> ProductPublic | None:
@@ -85,3 +85,5 @@ def product_update(
     if not result.data:
         return None
     return ProductPublic.model_validate(result.data[0])
+
+

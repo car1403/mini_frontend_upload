@@ -2,7 +2,7 @@
 from app.schemas.item_schema import ItemCreate, ItemPublic
 from app.core.supabase_config import get_supabase
 from zoneinfo import ZoneInfo
-from datetime import datetime
+from datetime import date, datetime
 
 # 1. 입력
 def item_create(item: ItemCreate) -> ItemPublic | None:
@@ -94,3 +94,17 @@ def item_delete(item_id: int) -> ItemPublic | None:
     if not result.data:
         return None
     return ItemPublic.model_validate(result.data[0])
+
+def search(
+    name: str | None = None,
+    start_date: date | None = None,
+    end_date: date | None = None,
+    min_price: int | None = None,
+    max_price: int | None = None,
+    ):
+    ""
+    supabase = get_supabase()
+    query = supabase.table("items").select("*")
+
+    if name:
+        query = query.ilike("name", f"%{name}%") 

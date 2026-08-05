@@ -1,5 +1,6 @@
 # item_router.py
 
+from datetime import date
 from typing import Annotated
 
 from fastapi import (
@@ -141,3 +142,15 @@ def delete(item_id: int) -> ApiResponse:
         message="상품을 삭제했습니다.",
         data=deleted_item,
     )
+
+# Query Parameters를 이용한 검색 기능 구현
+@item_router.get("/item/search")
+def search(
+    name: str | None = None,
+    start_date: date | None = None,
+    end_date: date | None = None,
+    min_price: int | None = None,
+    max_price: int | None = None,
+    ) -> ApiResponse:
+    ""
+    # 서비스 호출 후 결과를 받아서 리턴
