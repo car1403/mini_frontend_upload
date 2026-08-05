@@ -108,3 +108,18 @@ def search(
 
     if name:
         query = query.ilike("name", f"%{name}%") 
+
+    if min_price is not None:
+        query = query.gte("price", min_price)
+
+    if max_price is not None:
+        query = query.lte("price", max_price)
+
+    if start_date:
+        query = query.gte("created_at", start_date.isoformat())
+
+    if end_date:
+        query = query.lte("created_at", end_date.isoformat())
+
+    result = query.execute()
+    return [ItemPublic.model_validate(item) for item in result.data]
