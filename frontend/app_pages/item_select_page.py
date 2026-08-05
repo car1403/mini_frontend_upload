@@ -1,7 +1,7 @@
 
 import streamlit as st
 
-from clients.item_client import delete_item, get_item, get_items, update_item
+from clients.item_client import search_item,delete_item, get_item, get_items, update_item
 from core.api_client import BACKEND_URL, BackendAPIError
 from core.date_time import format_created_at
 
@@ -103,7 +103,45 @@ def show_item_list() -> None:
     if message := st.session_state.pop("item_message", None):
         st.success(message)
 
-    response = get_items()
+    with st.form("item-search-form"):
+        search_name = st.text_input("상품명")
+        search_start_date = st.date_input(
+            "등록일 시작",
+            value=None,
+            min_value=None,
+            max_value=None,
+        )
+        search_end_date = st.date_input(
+            "등록일 종료",
+            value=None,
+            min_value=None,
+            max_value=None,
+        )
+        search_min_price = st.number_input(
+            "최소 가격",
+            min_value=0,
+            step=1000,
+            value=0,
+        )
+        search_max_price = st.number_input(
+            "최대 가격",
+            min_value=0,
+            step=1000,
+            value=0,
+        )
+        search_button = st.form_submit_button("검색")
+    print(search_name, search_start_date, search_end_date, search_min_price, search_max_price)
+    if search_button:
+        response = search_item(
+            name=search_name.strip() or None,
+            start_date=search_start_date ,
+            end_date=search_end_date,
+            min_price=search_min_price if search_min_price > 0 else None,
+            max_price=search_max_price if search_max_price > 0 else None,
+        )
+    else:
+        response = get_items()
+
     items = response.get("data") or []
 
     if not items:

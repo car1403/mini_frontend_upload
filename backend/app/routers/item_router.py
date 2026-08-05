@@ -29,6 +29,8 @@ item_router = APIRouter(tags=["Item"])
 # 422: 입력값 검증 실패
 # 500: 서버 또는 DB 처리 실패
 
+
+
 # 1. create
 @item_router.post("/item/create")
 async def create(
@@ -71,6 +73,31 @@ def get_all() -> ApiResponse:
     )
 
 
+# Query Parameters를 이용한 검색 기능 구현
+@item_router.get("/item/search")
+def search(
+    name: str | None = None,
+    start_date: date | None = None,
+    end_date: date | None = None,
+    min_price: int | None = None,
+    max_price: int | None = None,
+    ) -> ApiResponse:
+    ""
+    # 서비스 호출 후 결과를 받아서 리턴
+    # [{},{},{}]
+    print(f"search_item called with name={name}, start_date={start_date}, end_date={end_date}, min_price={min_price}, max_price={max_price}")
+    items = item_search(
+        name=name,
+        start_date=start_date,
+        end_date=end_date,
+        min_price=min_price,
+        max_price=max_price,
+    )
+    return ApiResponse(
+        success=True,
+        message="상품을 조회했습니다.",
+        data=items,
+    )
 @item_router.get("/item/get/{item_id}")
 def get(item_id: int) -> ApiResponse:
     item = item_get(item_id)
@@ -142,29 +169,4 @@ def delete(item_id: int) -> ApiResponse:
         success=True,
         message="상품을 삭제했습니다.",
         data=deleted_item,
-    )
-
-# Query Parameters를 이용한 검색 기능 구현
-@item_router.get("/item/search")
-def search(
-    name: str | None = None,
-    start_date: date | None = None,
-    end_date: date | None = None,
-    min_price: int | None = None,
-    max_price: int | None = None,
-    ) -> ApiResponse:
-    ""
-    # 서비스 호출 후 결과를 받아서 리턴
-    # [{},{},{}]
-    items = item_search(
-        name=name,
-        start_date=start_date,
-        end_date=end_date,
-        min_price=min_price,
-        max_price=max_price,
-    )
-    return ApiResponse(
-        success=True,
-        message="상품을 조회했습니다.",
-        data=items,
     )
