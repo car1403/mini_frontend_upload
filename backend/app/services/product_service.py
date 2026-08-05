@@ -1,6 +1,6 @@
 # product_service.py
 from app.schemas.product_schema import ProductCreate, ProductPublic, ProductUpdate
-from app.core.supabase_client import get_supabase
+from app.core.supabase_config import get_supabase
 from zoneinfo import ZoneInfo
 from datetime import datetime
 

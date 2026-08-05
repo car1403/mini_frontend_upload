@@ -1,6 +1,6 @@
 # item_service.py
 from app.schemas.item_schema import ItemCreate, ItemPublic
-from app.core.supabase_client import get_supabase
+from app.core.supabase_config import get_supabase
 from zoneinfo import ZoneInfo
 from datetime import datetime
 

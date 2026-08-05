@@ -1,4 +1,4 @@
-from app.core.supabase_client import get_supabase
+from app.core.supabase_config import get_supabase
 from fastapi import HTTPException
 from app.schemas.auth_scheme import (
     AuthCreate, AuthLogin, AuthPublic, AuthUpdate

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from app.core.config import UPLOAD_DIR
+from app.core.upload_config import UPLOAD_DIR
 from app.routers.chat_router import chat_router
 from app.routers.product_router import product_router
 from app.routers.auth_router import auth_router

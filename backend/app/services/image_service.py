@@ -1,6 +1,6 @@
 from fastapi import UploadFile
 
-from app.core.config import ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE, UPLOAD_DIR
+from app.core.upload_config import ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE, UPLOAD_DIR
 
 
 
