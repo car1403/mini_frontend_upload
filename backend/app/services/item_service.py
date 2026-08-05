@@ -95,7 +95,7 @@ def item_delete(item_id: int) -> ItemPublic | None:
         return None
     return ItemPublic.model_validate(result.data[0])
 
-def search(
+def item_search(
     name: str | None = None,
     start_date: date | None = None,
     end_date: date | None = None,

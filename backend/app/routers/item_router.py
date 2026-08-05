@@ -14,6 +14,7 @@ from app.services.item_service import (
     item_get_all,
     item_update,
     item_delete,
+    item_search,
 )
 from app.core.api_response import ApiResponse
 
@@ -154,3 +155,16 @@ def search(
     ) -> ApiResponse:
     ""
     # 서비스 호출 후 결과를 받아서 리턴
+    # [{},{},{}]
+    items = item_search(
+        name=name,
+        start_date=start_date,
+        end_date=end_date,
+        min_price=min_price,
+        max_price=max_price,
+    )
+    return ApiResponse(
+        success=True,
+        message="상품을 조회했습니다.",
+        data=items,
+    )
