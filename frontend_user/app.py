@@ -22,9 +22,14 @@ data_page = st.Page(
     title="데이터",
     icon="📊",
 )
+item_page = st.Page(
+    "app_pages/item_page.py",
+    title="아이템",
+    icon="📊",
+)
 
 navigation = st.navigation(
-    [start_page, data_page],
+    [start_page, data_page, item_page],
     position="hidden",
 )
 
@@ -32,6 +37,7 @@ with st.sidebar:
     st.title("Multi Tab")
     st.page_link(start_page)
     st.page_link(data_page)
+    st.page_link(item_page)
     st.divider()
 
     if is_logged_in():
