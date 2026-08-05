@@ -1,20 +1,10 @@
-from datetime import datetime
 
 import streamlit as st
 
 from clients.item_client import delete_item, get_item, get_items, update_item
 from core.api_client import BACKEND_URL, BackendAPIError
+from core.date_time import format_created_at
 
-
-def format_created_at(value: str | None) -> str:
-    if not value:
-        return "-"
-    try:
-        return datetime.fromisoformat(value.replace("Z", "+00:00")).strftime(
-            "%Y-%m-%d %H:%M"
-        )
-    except ValueError:
-        return value
 
 
 def get_image_url(item: dict) -> str | None:
