@@ -130,7 +130,7 @@ def show_item_list() -> None:
             value=0,
         )
         search_button = st.form_submit_button("검색")
-    print(search_name, search_start_date, search_end_date, search_min_price, search_max_price)
+
     if search_button:
         response = search_item(
             name=search_name.strip() or None,
@@ -141,6 +141,7 @@ def show_item_list() -> None:
         )
     else:
         response = get_items()
+#---------------------------------------------------------------------
 
     items = response.get("data") or []
 

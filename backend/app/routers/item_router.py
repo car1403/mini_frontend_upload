@@ -74,6 +74,7 @@ def get_all() -> ApiResponse:
 
 
 # Query Parameters를 이용한 검색 기능 구현
+# /item/search?name=&start_date=&end_date=&min_price=&max_price=
 @item_router.get("/item/search")
 def search(
     name: str | None = None,

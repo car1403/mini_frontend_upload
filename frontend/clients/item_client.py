@@ -77,7 +77,13 @@ def search_item(
         "min_price":min_price,
         "max_price":max_price
     }
+    param_data = {
+        key: value
+        for key, value in param_data.items()
+        if value is not None
+    }
+
 
     # Query Parameters를 이용한 검색 기능 구현
-    # ?aa=bb&cc=dd
+    # ?aa=bb&cc=None
     return request("GET", f"/item/search", params= param_data)
