@@ -20,6 +20,7 @@ def request(method: str,
             json: dict[str, Any] | None = None,
             data: dict[str, Any] | None = None,
             files: dict[str, Any] | None = None, 
+            params: dict[str, Any] | None = None,
             ):
     try:
         response = httpx.request(
@@ -28,6 +29,7 @@ def request(method: str,
             json=json,
             data=data,
             files=files,
+            params=params,
             timeout=REQUEST_TIMEOUT,
         )
     except httpx.TimeoutException as error:
