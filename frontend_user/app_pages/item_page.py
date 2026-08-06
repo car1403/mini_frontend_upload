@@ -47,9 +47,6 @@ def show_item_detail(item_id: int) -> None:
 def show_item_list() -> None:
     st.title("상품조회 페이지")
 
-    if message := st.session_state.pop("item_message", None):
-        st.success(message)
-
 
     with st.form("item-search-form"):
         col1, col2, col3, col4, col5 = st.columns(5)
