@@ -1,6 +1,6 @@
 import streamlit as st  # Python 코드로 웹 화면을 만들기 위해 Streamlit을 st라는 별칭으로 가져옵니다.
-import clients.chat_client as send_message  # 백엔드 서버와 통신하기 위해 chat_client.py를 가져옵니다..
-import core.auth as is_logged_in  # 로그인 상태를 확인하기 위해 auth.py를 가져옵니다.
+from clients.chat_client import send_message  # 백엔드 서버와 통신하기 위해 chat_client.py를 가져옵니다..
+from core.auth import is_logged_in  # 로그인 상태를 확인하기 위해 auth.py를 가져옵니다.
 
 if not is_logged_in():
     st.warning("로그인이 필요한 화면입니다.")
