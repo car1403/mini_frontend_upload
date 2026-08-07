@@ -79,7 +79,6 @@ with st.sidebar:
         st.page_link(mypage_page)
         st.page_link(item_create_page)
         st.page_link(item_select_page)
-
         st.button("LOGOUT", on_click=logout, use_container_width=True)
     else:
         st.page_link(login_page)

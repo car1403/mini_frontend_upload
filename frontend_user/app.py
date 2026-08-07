@@ -27,9 +27,14 @@ item_page = st.Page(
     title="아이템",
     icon="📊",
 )
+chat_page = st.Page(
+    "app_pages/chat_page.py",
+    title="채팅",
+    icon="📊",
+)
 
 navigation = st.navigation(
-    [start_page, data_page, item_page],
+    [start_page, data_page, item_page, chat_page],
     position="hidden",
 )
 
@@ -42,6 +47,7 @@ with st.sidebar:
 
     if is_logged_in():
         st.success("로그인 중")
+        st.page_link(chat_page)
         st.button("로그아웃", on_click=logout)
     else:
         st.caption("연습 계정: id01 / pwd01")
