@@ -47,6 +47,7 @@ with st.sidebar:
 
     if is_logged_in():
         st.success("로그인 중")
+        st.write(f"사용자 ID: {st.session_state.user_id}")
         st.page_link(chat_page)
         st.button("로그아웃", on_click=logout)
     else:
