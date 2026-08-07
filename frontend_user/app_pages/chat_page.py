@@ -1,9 +1,5 @@
 import streamlit as st  # Python 코드로 웹 화면을 만들기 위해 Streamlit을 st라는 별칭으로 가져옵니다.
-
-
-def create_reply(prompt):  # 요청 본문으로 받은 데이터를 새 항목으로 저장합니다.
-    return f"질문을 확인했습니다: {prompt}"  # 함수 실행 결과를 호출한 위치로 돌려줍니다.
-
+import clients.chat_client as send_message  # 백엔드 서버와 통신하기 위해 chat_client.py를 가져옵니다..
 
 st.title("대화 이력 추가")  # Streamlit 화면의 가장 큰 제목을 표시합니다.
 
@@ -18,7 +14,10 @@ prompt = st.chat_input("질문을 입력하세요")  # 채팅 입력창에서 �
 
 if prompt:  # 사용자가 채팅 입력창에 질문을 입력했을 때만 메시지 처리 로직을 실행합니다.
     st.session_state.messages.append({"role": "user", "content": prompt})  # Streamlit이 재실행되어도 유지해야 하는 화면 상태를 session_state에 저장하거나 읽습니다.
-    reply = create_reply(prompt)  # 백엔드 또는 AI 서비스가 만든 응답 문자열을 화면 출력용 변수에 저장합니다.
+    with st.spinner("AI가 답변을 작성 중입니다...")  # Streamlit 화면에 로딩 상태를 표시합니다.
+        reply = send_message(st.session_state.user_id, 
+                             prompt)  # 백엔드 또는 AI 서비스가 만든 응답 문자열을 화면 출력용 변수에 저장합니다.
+        reply = reply["data"].get("answer", "답변을 받지 못했습니다.")  # 백엔드 또는 AI 서비스가 만든 응답 문자열을 화면 출력용 변수에 저장합니다.
     st.session_state.messages.append({"role": "assistant", "content": reply})  # Streamlit이 재실행되어도 유지해야 하는 화면 상태를 session_state에 저장하거나 읽습니다.
     st.rerun()  # session_state 변경 사항을 즉시 반영하기 위해 Streamlit 스크립트를 다시 실행합니다.
 
